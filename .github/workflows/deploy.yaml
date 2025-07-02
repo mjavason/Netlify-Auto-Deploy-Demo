@@ -1,0 +1,40 @@
+name: Deploy React to Netlify
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create .env file from GitHub Secrets
+        run: |
+          echo "VITE_REACT_APP_API_URL=${{ secrets.VITE_REACT_APP_API_URL }}" >> .env
+          echo "VITE_REACT_APP_FEATURE_FLAG=${{ secrets.VITE_REACT_APP_FEATURE_FLAG }}" >> .env
+          echo "VITE_REACT_APP_CLIENT_ID=${{ secrets.VITE_REACT_APP_CLIENT_ID }}" >> .env
+          echo "VITE_REACT_APP_CLIENT_SECRET=${{ secrets.VITE_REACT_APP_CLIENT_SECRET }}" >> .env
+
+      - name: Build project
+        run: npm run build
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        run: netlify deploy --prod --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN --dir=dist
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
