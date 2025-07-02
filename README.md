@@ -1,6 +1,6 @@
 # Automated Deployment to Netlify with GitHub Actions
 
-This repository demonstrates a CI/CD pipeline for automatically building and deploying a web application to Netlify whenever changes are pushed to the `main` branch.
+This repository demonstrates a CI/CD pipeline for automatically building and deploying a web application to Netlify whenever changes are pushed to the `main` branch. [current deployment](https://charming-gumdrop-499706.netlify.app)
 
 ![Screenshot](https://raw.githubusercontent.com/mjavason/netlify-auto-deploy-demo/main/public/screenshot.png)
 
